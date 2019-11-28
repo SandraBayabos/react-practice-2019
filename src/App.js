@@ -33,6 +33,7 @@ class App extends Component {
         {/* title is a prop that we will pass down to Navbar.js */}
         <Navbar />
         <div className="container">
+          {/* loading and users are being passed in as props */}
           <Users loading={this.state.loading} users={this.state.users} />
         </div>
       </div>
