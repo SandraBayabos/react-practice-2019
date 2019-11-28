@@ -6,16 +6,17 @@ class UserItem extends Component {
   // constructor() {
   //   super();
   // console.log("Hi");
-  state = {
-    id: "id",
-    login: "mojombo",
-    avatar_url: "https://avatars0.githubusercontent.com/u/1?v=4",
-    html_url: "https://github.com/mojombo"
-  };
+  // state = {
+  //   id: "id",
+  //   login: "mojombo",
+  //   avatar_url: "https://avatars0.githubusercontent.com/u/1?v=4",
+  //   html_url: "https://github.com/mojombo"
+  // };
   // }
   render() {
     // can also destructure this.state.whatever by doing the following:-
-    const { login, avatar_url, html_url } = this.state;
+    // instead of grabbing these from this.state, we pass them in as props because in Users.js we passed in a prop called {user}
+    const { login, avatar_url, html_url } = this.props.user;
     return (
       <div className="card text-center">
         <img
