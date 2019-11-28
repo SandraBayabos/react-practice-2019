@@ -26,7 +26,7 @@ class Users extends Component {
   };
   render() {
     return (
-      <div>
+      <div style={usersStyle}>
         {/* Look through the list in the state using .map */}
         {/* each child in a list needs to have a unique key, so in this case we use user.id */}
         {/* user={user} is we are passing in the entire user - each {user} represents the entire user object after you've looped */}
@@ -37,5 +37,13 @@ class Users extends Component {
     );
   }
 }
+
+// creating a variable for usersStyle
+
+const usersStyle = {
+  display: "grid",
+  gridTemplateColumns: "repeat(3, 1fr)",
+  gridGap: "1rem"
+};
 
 export default Users;

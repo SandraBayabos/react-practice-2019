@@ -1,6 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
-class UserItem extends Component {
+// for functional stateless components we pass in props like this so at the bottom it'll just be props.whatever
+// destructure even more so instead of props we can put them directly in as users props so no need to type props.whatever below
+
+const UserItem = ({ user: { login, avatar_url, html_url } }) => {
   // constructor runs only when the component runs
   // can take out constructor & super and this.state and just return state = blach also and get the same result
   // constructor() {
@@ -13,27 +17,31 @@ class UserItem extends Component {
   //   html_url: "https://github.com/mojombo"
   // };
   // }
-  render() {
-    // can also destructure this.state.whatever by doing the following:-
-    // instead of grabbing these from this.state, we pass them in as props because in Users.js we passed in a prop called {user}
-    const { login, avatar_url, html_url } = this.props.user;
-    return (
-      <div className="card text-center">
-        <img
-          src={avatar_url}
-          alt=""
-          className="round-img"
-          style={{ width: "60px" }}
-        />
-        <h3>{login}</h3>
-        <div>
-          <a href={html_url} className="btn btn-dark btn-sm my-1">
-            More
-          </a>
-        </div>
+  // render() {
+  // can also destructure this.state.whatever by doing the following:-
+  // instead of grabbing these from this.state, we pass them in as props because in Users.js we passed in a prop called {user}
+  // const { login, avatar_url, html_url } = props.user;
+  return (
+    <div className="card text-center">
+      <img
+        src={avatar_url}
+        alt=""
+        className="round-img"
+        style={{ width: "60px" }}
+      />
+      <h3>{login}</h3>
+      <div>
+        <a href={html_url} className="btn btn-dark btn-sm my-1">
+          More
+        </a>
       </div>
-    );
-  }
-}
+    </div>
+  );
+  // }
+};
+
+UserItem.propTypes = {
+  user: PropTypes.object.isRequired
+};
 
 export default UserItem;

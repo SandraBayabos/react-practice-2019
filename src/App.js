@@ -16,7 +16,9 @@ class App extends Component {
       <div className="App">
         {/* title is a prop that we will pass down to Navbar.js */}
         <Navbar />
-        <Users />
+        <div className="container">
+          <Users />
+        </div>
       </div>
     );
   }
