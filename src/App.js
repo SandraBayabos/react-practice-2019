@@ -3,6 +3,7 @@ import Navbar from "./components/layout/Navbar";
 // import UserItem from "./components/users/UserItem";
 import Users from "./components/users/Users";
 import axios from "axios";
+import Search from "./components/users/Search";
 import "./App.css";
 
 // convert function App() to class App for now & we need to extend the React.Component (but if we import {Component from above then can just say Component})
@@ -35,6 +36,7 @@ class App extends Component {
         {/* title is a prop that we will pass down to Navbar.js */}
         <Navbar />
         <div className="container">
+          <Search />
           {/* loading and users are being passed in as props so that Users.js can access them */}
           <Users loading={this.state.loading} users={this.state.users} />
         </div>
