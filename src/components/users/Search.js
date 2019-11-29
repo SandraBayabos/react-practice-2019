@@ -10,15 +10,15 @@ class Search extends Component {
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   // if you don't use an arrow function, you need to bind "this" to the state or else "this" will be undefined
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
     console.log(this.state.text);
-  }
+  };
 
   render() {
     return (
       <div>
-        <form onSubmit={this.onSubmit.bind(this)} className="form">
+        <form onSubmit={this.onSubmit} className="form">
           <input
             type="text"
             name="text"
