@@ -26,7 +26,8 @@ class App extends Component {
   //   this.setState({ users: res.data, loading: false });
   // }
 
-  //searchUsers is a function below and we are passing the prop UP from Search.js
+  //searchUsers is a function below and we are passing the prop UP from Search.js.
+  //When we submit the form in Search.js, it calls the props.searchUsers, and that is being caught down below in searchUsers = this.searchUsers and saying when that fires, call this.searchUsers, which is the async call below, which is making a request and setting the state to this.searchUsers i.e. the data that gets returned
   searchUsers = async text => {
     const res = await axios.get(
       `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
