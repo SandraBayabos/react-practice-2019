@@ -13,30 +13,39 @@ class App extends Component {
     loading: false
   };
 
-  async componentDidMount() {
-    this.setState({ loading: true });
-    // can do axios get request using.then (without the async on componentDidMount() OR can use async)
-    // axios
-    //   .get("https://api.github.com/users")
-    //   .then(res => console.log(res.data));
+  // async componentDidMount() {
+  //   this.setState({ loading: true });
+  //   // can do axios get request using.then (without the async on componentDidMount() OR can use async)
+  //   // axios
+  //   //   .get("https://api.github.com/users")
+  //   //   .then(res => console.log(res.data));
+  //   const res = await axios.get(
+  //     `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+  //   );
+
+  //   this.setState({ users: res.data, loading: false });
+  // }
+
+  //searchUsers is a function below and we are passing the prop UP from Search.js
+  searchUsers = async text => {
     const res = await axios.get(
-      `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+      `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
 
-    this.setState({ users: res.data, loading: false });
-  }
+    this.setState({ users: res.data.items, loading: false });
+  };
   // render() is a lifecycle method that runs when all the other components are loaded
   render() {
     //All javscript goes under the render() including variables, functions etc.
 
     return (
       // JSX must only have ONE parent element, otherwise get warning. So everything must go inside this one div. In chrome developer you'll see everything, including the App div is wrapped around a div called "root".
-      //So can replease <div className="App"><div> with <React.Fragment></React.Fragment>, <Fragment></Fragment> or just <> so that it goes directly from "root" and everything is rendered within
+      //So can replease <di v className="App"><div> with <React.Fragment></React.Fragment>, <Fragment></Fragment> or just <> so that it goes directly from "root" and everything is rendered within
       <div className="App">
         {/* title is a prop that we will pass down to Navbar.js */}
         <Navbar />
         <div className="container">
-          <Search />
+          <Search searchUsers={this.searchUsers} />
           {/* loading and users are being passed in as props so that Users.js can access them */}
           <Users loading={this.state.loading} users={this.state.users} />
         </div>

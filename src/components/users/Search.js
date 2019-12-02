@@ -12,7 +12,8 @@ class Search extends Component {
   // if you don't use an arrow function, you need to bind "this" to the state or else "this" will be undefined
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state.text);
+    this.props.searchUsers(this.state.text);
+    this.setState({ text: "" });
   };
 
   render() {
