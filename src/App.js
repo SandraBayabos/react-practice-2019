@@ -4,13 +4,15 @@ import Navbar from "./components/layout/Navbar";
 import Users from "./components/users/Users";
 import axios from "axios";
 import Search from "./components/users/Search";
+import Alert from "./components/layout/Alert";
 import "./App.css";
 
 // convert function App() to class App for now & we need to extend the React.Component (but if we import {Component from above then can just say Component})
 class App extends Component {
   state = {
     users: [],
-    loading: false
+    loading: false,
+    alert: null
   };
 
   // async componentDidMount() {
@@ -40,6 +42,12 @@ class App extends Component {
 
   //Clear users from state
   clearUsers = () => this.setState({ users: [], loading: false });
+
+  //Set Alert
+  setAlert = (msg, type) => {
+    // this just puts the alert into the state so if you try to search with nothing then alert will become an object which will be msg: "please enter message" and type: "light". can also just put alert:{msg, type} and should work
+    this.setState({ alert: { msg: msg, type: type } });
+  };
   // render() is a lifecycle method that runs when all the other components are loaded
   render() {
     //All javscript goes under the render() including variables, functions etc.
@@ -52,11 +60,13 @@ class App extends Component {
         {/* title is a prop that we will pass down to Navbar.js */}
         <Navbar />
         <div className="container">
+          <Alert alert={this.state.alert} />
           <Search
             searchUsers={this.searchUsers}
             clearUsers={this.clearUsers}
             // if users.length is more than 0 then showClear is true (which comes from Search.js where if true then show button) or else showClear is set to false so no show
             showClear={users.length > 0 ? true : false}
+            setAlert={this.setAlert}
           />
           {/* loading and users are being passed in as props so that Users.js can access them */}
           <Users loading={loading} users={users} />
