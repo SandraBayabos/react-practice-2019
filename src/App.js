@@ -43,7 +43,8 @@ class App extends Component {
   //Clear users from state
   clearUsers = () => this.setState({ users: [], loading: false });
 
-  //Set Alert
+  //Set Alert function is passed first to Search.js, which renders the msg and type and is then passed back to App.js
+  //App.js then passes the props msg and type to Alert.js because Search.js and Alert.js cannot pass props between each other
   setAlert = (msg, type) => {
     // this just puts the alert into the state so if you try to search with nothing then alert will become an object which will be msg: "please enter message" and type: "light". can also just put alert:{msg, type} and should work
     this.setState({ alert: { msg: msg, type: type } });

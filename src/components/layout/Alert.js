@@ -1,5 +1,9 @@
 import React from "react";
 
+//the Alert component only displays the alert on the screen
+
+// as long as alert is not null, then show a div with the message
+
 const Alert = ({ alert }) => {
   return (
     alert !== null && (
