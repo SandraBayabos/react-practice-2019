@@ -1,16 +1,20 @@
-import React, { Component } from "react";
+import React, { Fragment, Component } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 // import UserItem from "./components/users/UserItem";
 import Users from "./components/users/Users";
+import User from "./components/users/User";
 import axios from "axios";
 import Search from "./components/users/Search";
 import Alert from "./components/layout/Alert";
+import About from "./components/pages/About";
 import "./App.css";
 
 // convert function App() to class App for now & we need to extend the React.Component (but if we import {Component from above then can just say Component})
 class App extends Component {
   state = {
     users: [],
+    user: {},
     loading: false,
     alert: null
   };
@@ -43,6 +47,18 @@ class App extends Component {
   //Clear users from state
   clearUsers = () => this.setState({ users: [], loading: false });
 
+  // Get a single Github user
+
+  getUser = async username => {
+    this.setState({ loading: true });
+
+    const res = await axios.get(
+      `https://api.github.com/users?q=${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    this.setState({ user: res.data, loading: false });
+  };
+
   //Set Alert function is passed first to Search.js, which renders the msg and type and is then passed back to App.js
   //App.js then passes the props msg and type to Alert.js because Search.js and Alert.js cannot pass props between each other
   setAlert = (msg, type) => {
@@ -53,27 +69,54 @@ class App extends Component {
   // render() is a lifecycle method that runs when all the other components are loaded
   render() {
     //All javscript goes under the render() including variables, functions etc.
-    const { users, loading } = this.state;
+    const { users, user, loading } = this.state;
 
     return (
       // JSX must only have ONE parent element, otherwise get warning. So everything must go inside this one div. In chrome developer you'll see everything, including the App div is wrapped around a div called "root".
       //So can replease <di v className="App"><div> with <React.Fragment></React.Fragment>, <Fragment></Fragment> or just <> so that it goes directly from "root" and everything is rendered within
-      <div className="App">
-        {/* title is a prop that we will pass down to Navbar.js */}
-        <Navbar />
-        <div className="container">
-          <Alert alert={this.state.alert} />
-          <Search
-            searchUsers={this.searchUsers}
-            clearUsers={this.clearUsers}
-            // if users.length is more than 0 then showClear is true (which comes from Search.js where if true then show button) or else showClear is set to false so no show
-            showClear={users.length > 0 ? true : false}
-            setAlert={this.setAlert}
-          />
-          {/* loading and users are being passed in as props so that Users.js can access them */}
-          <Users loading={loading} users={users} />
+      // Wrapping everything in Router so we can control which stuff goes where
+      <Router>
+        <div className="App">
+          {/* title is a prop that we will pass down to Navbar.js */}
+          <Navbar />
+          <div className="container">
+            <Alert alert={this.state.alert} />
+            {/* rendering Search and Users into Fragments for the route "/" */}
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={props => (
+                  <Fragment>
+                    <Search
+                      searchUsers={this.searchUsers}
+                      clearUsers={this.clearUsers}
+                      // if users.length is more than 0 then showClear is true (which comes from Search.js where if true then show button) or else showClear is set to false so no show
+                      showClear={users.length > 0 ? true : false}
+                      setAlert={this.setAlert}
+                    />
+                    {/* loading and users are being passed in as props so that Users.js can access them */}
+                    <Users loading={loading} users={users} />
+                  </Fragment>
+                )}
+              />
+              <Route exact path="/about" component={About} />
+              <Route
+                exact
+                path="/user:login"
+                render={props => (
+                  <User
+                    {...props}
+                    getUser={this.getUser}
+                    user={user}
+                    loading={loading}
+                  />
+                )}
+              />
+            </Switch>
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
