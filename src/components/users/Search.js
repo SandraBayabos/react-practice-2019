@@ -18,6 +18,7 @@ class Search extends Component {
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   // if you don't use an arrow function, you need to bind "this" to the state or else "this" will be undefined
+  //this.props.setAlert comes from App.js, which imports Alert.js
   onSubmit = e => {
     e.preventDefault();
     if (this.state.text === "") {
