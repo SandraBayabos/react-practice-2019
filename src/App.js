@@ -47,7 +47,7 @@ class App extends Component {
   //Clear users from state
   clearUsers = () => this.setState({ users: [], loading: false });
 
-  // Get a single Github user
+  // Get a single Github user. username is the same as login, which is in User.js and UserItem.js
 
   getUser = async username => {
     this.setState({ loading: true });
@@ -103,7 +103,7 @@ class App extends Component {
               <Route exact path="/about" component={About} />
               <Route
                 exact
-                path="/user:login"
+                path="/user/:login"
                 render={props => (
                   <User
                     {...props}
