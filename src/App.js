@@ -48,6 +48,7 @@ class App extends Component {
   setAlert = (msg, type) => {
     // this just puts the alert into the state so if you try to search with nothing then alert will become an object which will be msg: "please enter message" and type: "light". can also just put alert:{msg, type} and should work
     this.setState({ alert: { msg: msg, type: type } });
+    setTimeout(() => this.setState({ alert: null }), 5000);
   };
   // render() is a lifecycle method that runs when all the other components are loaded
   render() {
