@@ -43,6 +43,7 @@ class App extends Component {
   // render() is a lifecycle method that runs when all the other components are loaded
   render() {
     //All javscript goes under the render() including variables, functions etc.
+    const { users, loading } = this.state;
 
     return (
       // JSX must only have ONE parent element, otherwise get warning. So everything must go inside this one div. In chrome developer you'll see everything, including the App div is wrapped around a div called "root".
@@ -51,9 +52,14 @@ class App extends Component {
         {/* title is a prop that we will pass down to Navbar.js */}
         <Navbar />
         <div className="container">
-          <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} />
+          <Search
+            searchUsers={this.searchUsers}
+            clearUsers={this.clearUsers}
+            // if users.length is more than 0 then showClear is true (which comes from Search.js where if true then show button) or else showClear is set to false so no show
+            showClear={users.length > 0 ? true : false}
+          />
           {/* loading and users are being passed in as props so that Users.js can access them */}
-          <Users loading={this.state.loading} users={this.state.users} />
+          <Users loading={loading} users={users} />
         </div>
       </div>
     );
