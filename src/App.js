@@ -29,12 +29,17 @@ class App extends Component {
   //searchUsers is a function below and we are passing the prop UP from Search.js.
   //When we submit the form in Search.js, it calls the props.searchUsers, and that is being caught down below in searchUsers = this.searchUsers and saying when that fires, call this.searchUsers, which is the async call below, which is making a request and setting the state to this.searchUsers i.e. the data that gets returned
   searchUsers = async text => {
+    this.setState({ loading: true });
+
     const res = await axios.get(
       `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
 
     this.setState({ users: res.data.items, loading: false });
   };
+
+  //Clear users from state
+  clearUsers = () => this.setState({ users: [], loading: false });
   // render() is a lifecycle method that runs when all the other components are loaded
   render() {
     //All javscript goes under the render() including variables, functions etc.
@@ -46,7 +51,7 @@ class App extends Component {
         {/* title is a prop that we will pass down to Navbar.js */}
         <Navbar />
         <div className="container">
-          <Search searchUsers={this.searchUsers} />
+          <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} />
           {/* loading and users are being passed in as props so that Users.js can access them */}
           <Users loading={this.state.loading} users={this.state.users} />
         </div>
