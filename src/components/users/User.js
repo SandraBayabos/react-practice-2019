@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 class User extends Component {
+  //need to use componentDidMount() to fire off the getUser that we used in App.js
   // this.props.match.params comes from <Route exact path="/user/:login"/>
   componentDidMount() {
     this.props.getUser(this.props.match.params.login);
@@ -21,7 +22,10 @@ class User extends Component {
       public_gists,
       hireable
     } = this.props.user;
-    return <div>User</div>;
+
+    const { loading } = this.props;
+
+    return <div>{name}</div>;
   }
 }
 
